@@ -1,0 +1,215 @@
+<div class="card">
+    <div class="table-responsive">
+        <div>
+            <table class="table align-items-center">
+                <thead class="thead-light">
+                    <tr>
+                        <td colspan="3">
+                            <!-- Button trigger modal -->
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#serviceModal">
+                              Nuevo
+                            </button>
+                        </td>
+
+                        <td colspan="3">
+                            <div id="alterCurrier">
+
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="col" class="sort" data-sort="name">Observaci&oacute;n</th>
+                        <th scope="col" class="sort" data-sort="budget">C&oacute;digo</th>
+                        <th scope="col" class="sort" data-sort="budget">Peso(GRM)</th>
+                        <th scope="col" class="sort" data-sort="status">Creaci&oacute;n</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody class="list">
+
+                    <tr *ngFor="let currier of dataServices">
+                        <th scope="row">
+                            <div class="media align-items-center">
+                                <a href="#" class="avatar rounded-circle mr-3">
+                                    <img alt="Image placeholder" src="../../assets/img/theme/bootstrap.jpg">
+                                </a>
+                                <div class="media-body">
+                                    <span class="name mb-0 text-sm"> {{currier.observation}} </span>
+                                </div>
+                            </div>
+                        </th>
+                        <td class="budget">
+                            {{currier.codeService}}
+                        </td>
+                        <td>
+                            {{ currier.weight | number: '.2-2' }}
+                        </td>
+
+                        <td class="text-right">
+                            {{ currier.created | date }}
+                        </td>
+                        <td>
+                            <button class="btn btn-icon btn-primary " type="button" data-toggle="modal" data-target="#serviceModal" (click)="onLoadEdit( currier )">
+                              <span class="btn-inner--icon">
+                                <i class="fas fa-edit"></i>
+                              </span>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3">
+                            <div class="row">
+                                <div class="col-6">
+                                    {{infoPagination}}
+                                </div>
+                                <div class="col-6">
+                                    <span class="inline">ver</span>&nbsp;
+                                    <select class="form-control form-control-sm cbxRowForPage inline" name="cbxRowsForPage" [(ngModel)]="rowsForPage" (change)="onGetService(1)">
+                                    <option  value="10"> 10 </option>
+                                    <option  value="20"> 20 </option>
+                                    <option  value="50"> 50 </option>
+                                </select>&nbsp;
+                                    <span class="inline">registros</span>
+                                </div>
+                                <div class="col-3">
+
+                                </div>
+                            </div>
+
+
+                        </td>
+                        <td colspan="3">
+                            <div *ngIf="pagination.currentPage" class="text-right">
+                                <nav aria-label="Page navigation example">
+                                    <ul class="pagination justify-content-center mt-2">
+
+                                        <li class="page-item prev" [ngClass]="{'disabled':pagination.currentPage === 1}">
+                                            <a class="page-link" (click)="onGetService(pagination.currentPage - 1)">Prev</a>
+                                        </li>
+
+                                        <li class="page-item" *ngFor="let page of pagination.pages" [ngClass]="{active:pagination.currentPage === page}">
+                                            <a class="page-link" (click)="onGetService(page)">
+                                            {{ page }}
+                                        </a>
+                                        </li>
+
+                                        <li class="page-item next" [ngClass]="{'disabled':pagination.currentPage === pagination.totalPages}">
+                                            <a class="page-link" (click)="onGetService(pagination.currentPage + 1)">Next</a>
+                                        </li>
+                                    </ul>
+
+                                </nav>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" data-backdrop="false" id="serviceModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">{{ titleModal }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="onResetForm()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form #frmCurrier="ngForm" id="frmCurrier" role="form">
+                <div class="modal-body">
+                    <span>Ubicaci&oacute;n (origen-destino)</span>
+                    <div #map class="map">
+                        mi mapa
+                    </div>
+
+                    <div #infowindowOrigin>
+                        <img src="https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png" width="16" height="16">
+                        <span id="place-name" class="title">
+                          <strong>
+                              Origen
+                          </strong>
+                      </span><br>
+                        <span id="place-address">
+
+                      </span>
+                    </div>
+
+                    <div #infowindowFinish>
+                        <img src="https://maps.gstatic.com/mapfiles/place_api/icons/geocode-71.png" width="16" height="16">
+                        <span id="place-name" class="title">
+                        <strong>
+                            Destino
+                        </strong>
+                    </span><br>
+                        <span id="place-address">
+
+                    </span>
+                    </div>
+                    <br>
+                    <!-- <span>Destino</span>
+                    <div #mapFinish class="mapFinish">
+                        mi mapa
+                    </div>
+                    <br> -->
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="txtWeight" class="form-control-label">Peso del paquete</label>
+                                <input class="form-control" type="number" placeholder="0.00" id="txtWeight" name="weight" #weight="ngModel" [(ngModel)]="bodyCurrier.weight" required [ngClass]="{
+                                'is-invalid': (weight.errors?.required || weight.errors?.minlength ) && weight.touched,
+                                'is-valid': !weight.errors?.required && !weight.errors?.minlength  && weight.touched
+                            }">
+
+                                <span *ngIf="weight.errors?.required && weight.touched">
+                                <small class="text-danger">*Requerido</small>
+                            </span>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <label for="txtObs" class="form-control-label">Observaci&oacute;n</label>
+                                <textarea rows="3" class="form-control" placeholder="Algun comentario importante..." id="txtObs" name="obs" #obs="ngModel" [(ngModel)]="bodyCurrier.observation" pattern="[a-zA-Z0-9 áéíóúñüAÉÍÓÚÑÜ\.\,\-\_\#]{0,250}" maxlength="250" [ngClass]="{
+                                'is-invalid': (obs.errors?.pattern || obs.errors?.maxlength ) && obs.touched,
+                                'is-valid': !obs.errors?.pattern && !obs.errors?.maxlength  && obs.touched
+                                }">
+
+                                </textarea>
+
+                                <span *ngIf="obs.errors?.pattern && obs.touched">
+                                    <small class="text-danger">*Solo letras, n&uacute;meros y , . - _ #</small>
+                                </span>
+
+                                <span *ngIf="obs.errors?.maxlength && obs.touched">
+                                    <small class="text-danger">*M&aacute;ximo 250 caracteres</small>
+                                </span>
+
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnCloseModalCurrier" class="btn btn-secondary" data-dismiss="modal" (click)="onResetForm()">
+                      Close
+                    </button>
+                    <button type="button" class="btn btn-primary" [disabled]="frmCurrier.invalid" (click)="onSubmitCurrier(frmCurrier)">
+                      {{ textButton }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

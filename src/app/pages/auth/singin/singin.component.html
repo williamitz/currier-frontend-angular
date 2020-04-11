@@ -1,0 +1,242 @@
+<!-- Page content -->
+<div class="container mt--8 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-7 col-md-7">
+            <div class="card bg-secondary border-0 mb-0">
+                <div class="card-header bg-transparent pb-2">
+                    <div class="text-muted text-center mt-2 mb-3"><small>Crear cuenta</small></div>
+                </div>
+                <div class="card-body px-lg-5 py-lg-5">
+                    <!-- <div class="text-center text-muted mb-4">
+                        <small>Or sign in with credentials</small>
+                    </div> -->
+                    <form #frmSingin="ngForm" role="form" >
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="form-group">
+                                    <label for="txtNames" class="form-control-label">Nombres</label>
+                                    <input class="form-control" type="text" placeholder="Nombres" id="txtNames" name="names" #names="ngModel" [(ngModel)]="bodyClient.name" required minlength="3" [ngClass]="{
+                                      'is-invalid': (names.errors?.required || names.errors?.minlength ) && names.touched,
+                                      'is-valid': !names.errors?.required && !names.errors?.minlength  && names.touched
+                                    }">
+
+                                    <span *ngIf="names.errors?.required && names.touched">
+                                      <small class="text-danger">*Requerido</small>
+                                    </span>
+                                    <span *ngIf="names.errors?.minlength && names.touched">
+                                      <small class="text-danger">*M&iacute;nimo 3 caracteres</small>
+                                    </span>
+                                </div>
+
+                            </div>
+                            <div class="col-7">
+                                <div class="form-group">
+                                    <label for="txtSurname" class="form-control-label">Apellidos</label>
+                                    <input class="form-control" type="text" placeholder="Apellido paterno y/o materno" id="txtSurname" name="surname" #surname="ngModel" [(ngModel)]="bodyClient.surname" required minlength="3" [ngClass]="{
+                                      'is-invalid': (surname.errors?.required || surname.errors?.minlength ) && surname.touched,
+                                      'is-valid': !surname.errors?.required && !surname.errors?.minlength  && surname.touched
+                                    }">
+                                    <span *ngIf="surname.errors?.required && surname.touched">
+                                      <small class="text-danger">*Requerido</small>
+                                    </span>
+                                    <span *ngIf="surname.errors?.minlength && surname.touched">
+                                      <small class="text-danger">*M&iacute;nimo 3 caracteres</small>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="form-group">
+                                    <label for="txtPhone" class="form-control-label">Tel&eacute;fono</label>
+                                    <input class="form-control" type="text" placeholder="(+51) 000 000 000" id="txtPhone" name="phone" #phone="ngModel" 
+                                    [(ngModel)]="bodyClient.phone" 
+                                    required 
+                                    pattern="[0-9\ \(\)\+]{6,15}" 
+                                    [ngClass]="{
+                                        'is-invalid': (phone.errors?.required || phone.errors?.pattern ) && phone.touched,
+                                        'is-valid': !phone.errors?.required && !phone.errors?.pattern  && phone.touched
+                                    }">
+                                    <span *ngIf="phone.errors?.required && phone.touched">
+                                        <small class="text-danger">*Requerido</small>
+                                    </span>
+                                    <span *ngIf="phone.errors?.pattern && phone.touched">
+                                        <small class="text-danger">*Formato inv&aacute;lido</small>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-7">
+                                <div class="form-group">
+                                    <label for="txtEmail" 
+                                    class="form-control-label">Email</label>
+                                    <input class="form-control" 
+                                    type="email" 
+                                    placeholder="Email" 
+                                    id="txtEmail"
+                                    name="email"
+                                    #email="ngModel"
+                                    [(ngModel)]="bodyClient.email"
+                                    required
+                                    pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"
+                                    [ngClass]="{
+                                        'is-invalid': (email.errors?.required || email.errors?.pattern ) && email.touched,
+                                        'is-valid': !email.errors?.required && !email.errors?.pattern  && email.touched
+                                    }">
+
+                                    <span *ngIf="email.errors?.required && email.touched">
+                                        <small class="text-danger">*Requerido</small>
+                                    </span>
+                                    <span *ngIf="email.errors?.pattern && email.touched">
+                                        <small class="text-danger">*Formato inv&aacute;lido: example@dominio.com</small>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="txtAddress" class="form-control-label">Direcci&oacute;n</label>
+                            <input class="form-control" 
+                            type="text" 
+                            placeholder="Calle #000 ..." 
+                            id="txtAddress"
+                            name="address"
+                            #address="ngModel"
+                            [(ngModel)]="bodyClient.address"
+                            required
+                            pattern="^[a-zA-Z0-9\ \#\,\.\-áéíóúñüÁÉÍÓÚÑÜ]{0,100}$"
+                            minlength="10"
+                            maxlength="100"
+                            [ngClass]="{
+                                'is-invalid': 
+                                    (address.errors?.required || address.errors?.pattern || address.errors?.minlength || address.errors?.maxlength) && address.touched,
+                                'is-valid': 
+                                    !address.errors?.required && !address.errors?.pattern && !address.errors?.minlength && !address.errors?.maxlength && address.touched
+                            }">
+
+                            <span *ngIf="address.errors?.required && address.touched">
+                                <small class="text-danger">*Requerido</small>
+                            </span>
+                            <span *ngIf="address.errors?.minlength && address.touched">
+                                <small class="text-danger">*M&iacute;nimo 10 caracteres</small>
+                            </span>
+                            <span *ngIf="address.errors?.maxlength && address.touched">
+                                <small class="text-danger">*M&aacute;ximo 100 caracteres</small>
+                            </span>
+                            <span *ngIf="address.errors?.pattern && address.touched">
+                                <small class="text-danger">*Solo letas, n&uacute;meros y # . , -</small>
+                            </span>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="txtUser" class="form-control-label">Usuario</label>
+                                    <input class="form-control" 
+                                    type="text" 
+                                    placeholder="Email o teléfono" 
+                                    id="txtUser"
+                                    name="userName"                                    
+                                    #userName="ngModel"
+                                    [(ngModel)]="bodyClient.userName"
+                                    required
+                                    pattern="^[a-zA-Z0-9\@\.\-\_]{0,100}$"
+                                    minlength="9"
+                                    maxlength="50"
+                                    [ngClass]="{
+                                        'is-invalid': 
+                                            (userName.errors?.required || userName.errors?.pattern || userName.errors?.minlength || userName.errors?.maxlength) && userName.touched,
+                                        'is-valid': 
+                                            !userName.errors?.required && !userName.errors?.pattern && !userName.errors?.minlength && !userName.errors?.maxlength && userName.touched
+                                    }">
+                                </div>
+                                <span *ngIf="userName.errors?.required && userName.touched">
+                                    <small class="text-danger">*Requerido</small>
+                                </span>
+                                <span *ngIf="userName.errors?.minlength && userName.touched">
+                                    <small class="text-danger">*M&iacute;nimo 9 caracteres</small>
+                                </span>
+                                <span *ngIf="userName.errors?.maxlength && userName.touched">
+                                    <small class="text-danger">*M&aacute;ximo 50 caracteres</small>
+                                </span>
+                                <span *ngIf="userName.errors?.pattern && userName.touched">
+                                    <small class="text-danger">*Solo letas, n&uacute;meros y @ . , -</small>
+                                </span>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="txtPsw" class="form-control-label">Contrase&ntilde;a</label>
+                                    <input class="form-control" 
+                                    type="password" 
+                                    placeholder="Contrase&ntilde;a" 
+                                    id="txtPsw"
+                                    name="userPassword"
+                                    #userPsw="ngModel"
+                                    [(ngModel)]="bodyClient.userPassword"
+                                    required
+                                    pattern="(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9]).*" 
+                                    minlength="6"
+                                    maxlength="15"
+                                    [ngClass]="{
+                                      'is-invalid': 
+                                          (userPsw.errors?.required || userPsw.errors?.pattern || userPsw.errors?.minlength || userPsw.errors?.maxlength) && userPsw.touched,
+                                      'is-valid': 
+                                          !userPsw.errors?.required && !userPsw.errors?.pattern && !userPsw.errors?.minlength && !userPsw.errors?.maxlength && userPsw.touched
+                                    }">
+
+                                    <span *ngIf="userPsw.errors?.required && userPsw.touched">
+                                      <small class="text-danger">*Requerido</small>
+                                    </span>
+                                    <span *ngIf="userPsw.errors?.minlength && userPsw.touched">
+                                        <small class="text-danger">*M&iacute;nimo 6 caracteres</small>
+                                    </span>
+                                    <span *ngIf="userPsw.errors?.maxlength && userPsw.touched">
+                                        <small class="text-danger">*M&aacute;ximo 15 caracteres</small>
+                                    </span>
+                                    <span *ngIf="userPsw.errors?.pattern && userPsw.touched">
+                                        <small class="text-danger">*Debe tener una minuscula, mayuscula y un n&uacute;mero</small>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div #mapSingin class="mapSingin"> 
+                             mi mapa
+                        </div>
+
+                        <div class="custom-control custom-control-alternative custom-checkbox">
+                            <input class="custom-control-input" id=" customCheckLogin" type="checkbox">
+                            <label class="custom-control-label" for=" customCheckLogin">
+                          <span class="text-muted">Remember me</span>
+                        </label>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" (click)="onSingin(frmSingin)" class="btn btn-primary my-4" [disabled]="frmSingin.invalid || loading">
+                                <span *ngIf="loading" >
+                                    <i  class="fa fa-spinner fa-spin"></i>
+                                </span>
+                                
+                                Registrarse
+                            </button>
+
+                            <div id="alertSingin" >
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-6">
+                    <a href="" [routerLink]="['']" routerLinkActive="router-link-active" class="text-light">
+                        <small>Iniciar sesi&oacute;n</small>
+                    </a>
+                </div>
+                <div class="col-6 text-right">
+
+                    <!-- <a href="" routerLink="/singin" class="text-light"><small>Create new account</small></a> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
